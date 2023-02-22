@@ -1,8 +1,35 @@
+<template>
+  <div id="app">
+      <b-navbar variant="primary">
+          <b-navbar-nav>
+              <b-nav-item @click="router.push({ name: 'Main' })">
+                  <b-button>
+                      Home
+                  </b-button>
+              </b-nav-item>
+
+              <b-nav-item @click="router.push({ name: 'Settings' })">
+                  <b-button>
+                      Settings
+                  </b-button>
+              </b-nav-item>
+
+              <b-nav-item @click="router.push({ name: 'Transaction' })">
+                  <b-button>
+                      Erstelle Transaktion
+                  </b-button>
+              </b-nav-item>
+          </b-navbar-nav>
+      </b-navbar>
+
+      <router-view/>
+  </div>
+</template>
+
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 import {Blockchain, Transaktionen} from "./funktionen/blockchain.js"
 import elliptic from 'elliptic'
+import router from "@/router";
 
 try{
     //const{Blockchain,Transaktionen} = require('./blockchain');
@@ -16,7 +43,7 @@ try{
     let YakutCoin = new Blockchain();
 
     const tx1 = new Transaktionen(myWalletAdress, 'public key goes here', 8);
-    
+
     tx1.signTransaction(myKey);
     YakutCoin.addTransaktion(tx1);
 
@@ -30,52 +57,19 @@ try{
     YakutCoin.chain[1].transaktionen[0].amount = 1; //2 Blocker die erste Transaktion auf 0 ändern--> müsste jtzt false sein weil hashwerte nicht mehr passen!
     console.log("Is chain valid?", YakutCoin.isChainValid());
 
-  }catch (e) {
-console.log(e)
+}catch (e) {
+    console.log(e)
 }
 
 
 </script>
 
-<template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
-</template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+<style>
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
 }
 </style>
